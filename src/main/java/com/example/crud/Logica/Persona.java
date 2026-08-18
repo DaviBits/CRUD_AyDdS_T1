@@ -9,14 +9,12 @@ public class Persona {
     private String direccion;
     private List<Telefono> telefonos = new ArrayList<>();
 
-    // Constructor completo (para reconstruir objetos que vienen de la BD)
     public Persona(int id, String nombre, String direccion){
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
     }
 
-    // Constructor auxiliar (para alta nueva, todavía sin id de la BD)
     public Persona(String nombre, String direccion){
         this(0, nombre, direccion);
     }

@@ -13,7 +13,7 @@ public class PantallaPrincipal extends BorderPane {
     private PanelDerecho der;
 
     public PantallaPrincipal(){
-        titulo = new Label("CRUD PRUEBA DAVID GARCIA");
+        titulo = new Label("CRUD ");
         titulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         BorderPane.setAlignment(titulo, Pos.CENTER);
         BorderPane.setMargin(titulo, new Insets(12));
@@ -23,7 +23,7 @@ public class PantallaPrincipal extends BorderPane {
 
         contenido = new SplitPane();
         contenido.getItems().addAll(izq, der);
-        contenido.setDividerPositions(0.4); // 40% izquierda, 60% derecha
+        contenido.setDividerPositions(0.4);// 40% izquierda, 60% derecha
 
         this.setTop(titulo);
         BorderPane.setAlignment(titulo, Pos.CENTER);

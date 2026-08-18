@@ -5,14 +5,12 @@ public class Telefono {
     private int personaID;
     private String telefono;
 
-    // Constructor completo (para reconstruir desde la BD)
     public Telefono(int id, int personaID, String telefono){
         this.id = id;
         this.personaID = personaID;
         this.telefono = telefono;
     }
 
-    // Constructor auxiliar (para teléfono nuevo, todavía sin id de la BD)
     public Telefono (int personaID, String telefono){
         this(0, personaID, telefono);
     }

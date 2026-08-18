@@ -25,7 +25,6 @@ public class PanelIzquierdo extends VBox {
         alta = new Button("ALTA");
         baja = new Button("BAJA");
 
-        // Columnas definidas una sola vez, aquí en el constructor
         TableColumn<Persona, String> colNombre = new TableColumn<>("Nombre");
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 
@@ -42,7 +41,7 @@ public class PanelIzquierdo extends VBox {
         this.getChildren().addAll(accionesAltaBaja, usuarios);
     }
 
-    // Solo reemplaza los datos, no toca columnas
+
     public void actualizar(List<Persona> p){
         ObservableList<Persona> datos = FXCollections.observableArrayList(p);
         usuarios.setItems(datos);

@@ -158,4 +158,90 @@ public class ManejadorDB {
             }
         }
     }
+
+    public void agregarTelefonoA(int personaID, String tel){
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            stmt = conn.prepareStatement(
+                    "INSERT INTO telefonos (personaId, telefono) VALUES (?, ?)");
+            stmt.setInt(1, personaID);
+            stmt.setString(2, tel);
+            stmt.executeUpdate();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    public void eliminarTelefono(Telefono t, Persona p){
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            stmt = conn.prepareStatement(
+                    "DELETE FROM telefonos WHERE personaId = (?) AND telefono = (?) AND id = (?)");
+            stmt.setInt(1, p.getId());
+            stmt.setString(2, t.getTelefono());
+            stmt.setInt(3, t.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    public void actualizarPersona(Persona p){
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            stmt = conn.prepareStatement(
+                    "UPDATE personas SET nombre =(?) , direccion=(?) where id= (?)");
+            stmt.setString(1, p.getNombre());
+            stmt.setString(2, p.getDireccion());
+            stmt.setInt(3, p.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 }

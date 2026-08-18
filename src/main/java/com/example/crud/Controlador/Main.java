@@ -10,7 +10,7 @@ public class Main extends Application {
         Controlador c = new Controlador();
         Scene scene = new Scene(c.getVista());
         stage.setScene(scene);
-        stage.setTitle("CRUD Prueba David García");
+        stage.setTitle("CRUD");
         stage.show();
     }
 }

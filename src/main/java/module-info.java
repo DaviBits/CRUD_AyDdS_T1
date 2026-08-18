@@ -11,11 +11,15 @@ module com.example.crud {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
-
-    opens com.example.crud to javafx.fxml;
+    requires org.mariadb.jdbc;
+    requires org.junit.jupiter.api;
     opens com.example.crud.Vista;
     opens com.example.crud.Controlador;
     opens com.example.crud.Logica;
 
+
     exports com.example.crud;
+
+    opens com.example.crud;
+    exports com.example.crud.Logica;
 }

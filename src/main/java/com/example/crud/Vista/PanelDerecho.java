@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PanelDerecho extends VBox {
     private TextField nombre, direccion, nuevoTelefono;
@@ -57,7 +56,6 @@ public class PanelDerecho extends VBox {
         );
     }
 
-    // Carga una persona existente en el formulario (modo edición)
     public void mostrar(Persona p, ArrayList<Telefono> t){
         if(p == null){
             limpiar();
@@ -69,7 +67,6 @@ public class PanelDerecho extends VBox {
         telefonos.setItems(datos);
     }
 
-    // Limpia el formulario (modo alta nueva)
     public void limpiar(){
         nombre.clear();
         direccion.clear();
@@ -77,7 +74,6 @@ public class PanelDerecho extends VBox {
         nuevoTelefono.clear();
     }
 
-    // Arma un Persona con lo que hay actualmente en el formulario
     public Persona obtenerPersona(int id){
         Persona p = new Persona(id, nombre.getText(), direccion.getText());
         for(Telefono t : telefonos.getItems()){
@@ -97,7 +93,6 @@ public class PanelDerecho extends VBox {
         }
     }
 
-    // Getters para que el controlador enlace acciones (setOnAction, listeners, etc.)
     public TextField getNombre(){ return nombre; }
     public TextField getDireccion(){ return direccion; }
     public TextField getNuevoTelefono(){ return nuevoTelefono; }
