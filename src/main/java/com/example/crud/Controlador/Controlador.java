@@ -24,6 +24,7 @@ public class Controlador {
     public void setActions(){
         vista.getIzq().getUsuarios().setOnMouseClicked(e->{
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            if (p == null) return;
             vista.getDer().mostrar(p, db.getTelefonosDe(p));
         });
         vista.getIzq().getAlta().setOnMouseClicked(e->{
@@ -45,12 +46,14 @@ public class Controlador {
         });
 
         vista.getDer().getAgregarTelefono().setOnMouseClicked(e->{
+            Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            if(p==null)return;
             String num =vista.getDer().getNuevoTelefono().getText();
 
             int perID= vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem().getId();
-            Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+
             Telefono t = new Telefono(perID, num);
-            if (p ==null) return;
+
 
             if(!num.isEmpty()){
                 db.agregarTelefonoA(perID, num);
@@ -62,13 +65,16 @@ public class Controlador {
         vista.getDer().getQuitarTelefono().setOnMouseClicked(e->{
             Telefono t = vista.getDer().getTelefonos().getSelectionModel().getSelectedItem();
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
-            if (p ==null) return;
+            if (p ==null||t==null) return;
             db.eliminarTelefono(t, p);
             vista.getDer().mostrar(p, db.getTelefonosDe(p));
             System.out.println(t);
         });
 
         vista.getDer().getGuardar().setOnMouseClicked(e->{
+            Persona seleccionada = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            if (seleccionada == null) return;
+
             Persona p = new Persona(
                     vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem().getId(),
                     vista.getDer().getNombre().getText(),
