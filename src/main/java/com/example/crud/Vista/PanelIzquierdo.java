@@ -27,7 +27,7 @@ public class PanelIzquierdo extends VBox {
 
         TableColumn<Persona, String> colNombre = new TableColumn<>("Nombre");
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        
+
         TableColumn<Persona, String> colID = new TableColumn<>("ID");
         colID.setCellValueFactory(new PropertyValueFactory<>("id"));
 

@@ -14,10 +14,9 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public Persona(String nombre, String direccion){
+    public Persona(String nombre){
         this(0, nombre);
     }
-
 
     public String getNombre() {
         return nombre;
@@ -30,7 +29,6 @@ public class Persona {
     public List<Telefono> getTelefonos() {
         return telefonos;
     }
-
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
