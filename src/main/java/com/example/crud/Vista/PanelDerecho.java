@@ -1,6 +1,7 @@
 package com.example.crud.Vista;
 
 
+import com.example.crud.Logica.Direccion;
 import com.example.crud.Logica.Persona;
 import com.example.crud.Logica.Telefono;
 import javafx.collections.FXCollections;
@@ -14,12 +15,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PanelDerecho extends VBox {
-    private TextField nombre, direccion, nuevoTelefono;
+    private TextField nombre, nuevoTelefono, nuevaCalle, nuevaCiudad;
     private ListView<Telefono> telefonos;
-    private Button agregarTelefono, quitarTelefono, guardar, cancelar;
-    private HBox filaNuevoTelefono, filaAccionesTelefono, filaAcciones;
+    private ListView<Direccion> direcciones;
+    private Button agregarTelefono, quitarTelefono;
+    private Button agregarDireccion, quitarDireccion;
+    private Button guardar, cancelar;
     private Button guardarEdicionTelefono;
 
     public PanelDerecho(){
@@ -29,82 +33,91 @@ public class PanelDerecho extends VBox {
         nombre = new TextField();
         nombre.setPromptText("Nombre");
 
-        direccion = new TextField();
-        direccion.setPromptText("Dirección");
-
+        // --- Teléfonos (igual que antes) ---
         telefonos = new ListView<>();
-        telefonos.setPrefHeight(150);
-
+        telefonos.setPrefHeight(100);
         nuevoTelefono = new TextField();
         nuevoTelefono.setPromptText("Nuevo teléfono...");
         agregarTelefono = new Button("+");
-        guardarEdicionTelefono = new Button("Guardar edición");
-        filaNuevoTelefono = new HBox(6, nuevoTelefono, agregarTelefono, guardarEdicionTelefono);
-
         quitarTelefono = new Button("Quitar teléfono seleccionado");
-        filaAccionesTelefono = new HBox(quitarTelefono);
+
+        // --- Direcciones (nuevo, mismo patrón) ---
+        direcciones = new ListView<>();
+        direcciones.setPrefHeight(100);
+        nuevaCalle = new TextField();
+        nuevaCalle.setPromptText("Calle y número");
+        nuevaCiudad = new TextField();
+        nuevaCiudad.setPromptText("Ciudad");
+        agregarDireccion = new Button("+");
+        quitarDireccion = new Button("Quitar dirección seleccionada");
 
         guardar = new Button("Guardar cambios");
         cancelar = new Button("Cancelar");
 
-        filaAcciones = new HBox(10, guardar, cancelar);
+        guardarEdicionTelefono = new Button("Guardar edición");
 
         this.getChildren().addAll(
+
                 new Label("Nombre"), nombre,
-                new Label("Dirección"), direccion,
+
                 new Label("Teléfonos"), telefonos,
-                filaNuevoTelefono,
-                filaAccionesTelefono,
-                filaAcciones
+                new HBox(6, nuevoTelefono, agregarTelefono),
+                quitarTelefono, guardarEdicionTelefono,
+
+                new Label("Direcciones"), direcciones,
+                new HBox(6, nuevaCalle, nuevaCiudad, agregarDireccion),
+                quitarDireccion,
+
+                new HBox(10, guardar, cancelar)
         );
     }
 
-    public void mostrar(Persona p, ArrayList<Telefono> t){
+    // CAMBIÓ: ahora recibe también la lista de direcciones
+    public void mostrar(Persona p, List<Telefono> tels, List<Direccion> dirs){
         if(p == null){
             limpiar();
             return;
         }
         nombre.setText(p.getNombre());
-        direccion.setText(p.getDireccion());
-        ObservableList<Telefono> datos = FXCollections.observableArrayList(t);
-        telefonos.setItems(datos);
+        telefonos.setItems(FXCollections.observableArrayList(tels));
+        direcciones.setItems(FXCollections.observableArrayList(dirs));
     }
 
     public void limpiar(){
         nombre.clear();
-        direccion.clear();
         telefonos.setItems(FXCollections.observableArrayList());
+        direcciones.setItems(FXCollections.observableArrayList());
         nuevoTelefono.clear();
+        nuevaCalle.clear();
+        nuevaCiudad.clear();
     }
 
     public Persona obtenerPersona(int id){
-        Persona p = new Persona(id, nombre.getText(), direccion.getText());
-        for(Telefono t : telefonos.getItems()){
-            p.agregarTelefono(t);
-        }
-        return p;
-    }
-
-    public void agregarTelefonoALista(Telefono t){
-        telefonos.getItems().add(t);
+        return new Persona(id, nombre.getText());
     }
 
     public void quitarTelefonoSeleccionado(){
-        Telefono seleccionado = telefonos.getSelectionModel().getSelectedItem();
-        if(seleccionado != null){
-            telefonos.getItems().remove(seleccionado);
-        }
+        Telefono t = telefonos.getSelectionModel().getSelectedItem();
+        if(t != null) telefonos.getItems().remove(t);
     }
 
+    public void quitarDireccionSeleccionada(){
+        Direccion d = direcciones.getSelectionModel().getSelectedItem();
+        if(d != null) direcciones.getItems().remove(d);
+    }
+
+    // Getters
     public TextField getNombre(){ return nombre; }
-    public TextField getDireccion(){ return direccion; }
     public TextField getNuevoTelefono(){ return nuevoTelefono; }
+    public TextField getNuevaCalle(){ return nuevaCalle; }
+    public TextField getNuevaCiudad(){ return nuevaCiudad; }
     public ListView<Telefono> getTelefonos(){ return telefonos; }
+    public ListView<Direccion> getDirecciones(){ return direcciones; }
     public Button getAgregarTelefono(){ return agregarTelefono; }
     public Button getQuitarTelefono(){ return quitarTelefono; }
+    public Button getAgregarDireccion(){ return agregarDireccion; }
+    public Button getQuitarDireccion(){ return quitarDireccion; }
     public Button getGuardar(){ return guardar; }
     public Button getCancelar(){ return cancelar; }
-    public Button getGuardarEdicionTelefono(){
-        return guardarEdicionTelefono;
-    }
+    public Button getGuardarEdicionTelefono(){ return guardarEdicionTelefono; }
 }

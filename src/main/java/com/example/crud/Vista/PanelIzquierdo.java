@@ -27,14 +27,11 @@ public class PanelIzquierdo extends VBox {
 
         TableColumn<Persona, String> colNombre = new TableColumn<>("Nombre");
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-
-        TableColumn<Persona, String> colDireccion = new TableColumn<>("Dirección");
-        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-
+        
         TableColumn<Persona, String> colID = new TableColumn<>("ID");
         colID.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        usuarios.getColumns().addAll(colNombre, colDireccion, colID);
+        usuarios.getColumns().addAll(colNombre, colID);
 
         accionesAltaBaja.getChildren().addAll(alta, baja);
         accionesAltaBaja.setAlignment(Pos.CENTER);

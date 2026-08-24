@@ -1,5 +1,6 @@
 package com.example.crud.Controlador;
 
+import com.example.crud.Logica.Direccion;
 import com.example.crud.Logica.ManejadorDB;
 import com.example.crud.Logica.Persona;
 import com.example.crud.Logica.Telefono;
@@ -10,8 +11,8 @@ public class Controlador {
     private ManejadorDB db;
 
     public Controlador(){
-        vista=new PantallaPrincipal();
-        db=new ManejadorDB();
+        vista = new PantallaPrincipal();
+        db = new ManejadorDB();
 
         vista.getIzq().actualizar(db.getPersonas());
         setActions();
@@ -22,81 +23,44 @@ public class Controlador {
     }
 
     public void setActions(){
-        vista.getIzq().getUsuarios().setOnMouseClicked(e->{
+        vista.getIzq().getUsuarios().setOnMouseClicked(e -> {
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
             if (p == null) return;
-            vista.getDer().mostrar(p, db.getTelefonosDe(p));
+            vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
         });
-        vista.getIzq().getAlta().setOnMouseClicked(e->{
-            if(!vista.getDer().getNombre().getText().isEmpty() &&
-                    !vista.getDer().getDireccion().getText().isEmpty() ){
-                Persona p =  vista.getDer().obtenerPersona(0);
-                if (p ==null) return;
+
+        vista.getIzq().getAlta().setOnMouseClicked(e -> {
+            if (!vista.getDer().getNombre().getText().isEmpty()) {
+                Persona p = vista.getDer().obtenerPersona(0);
                 db.agregar(p);
                 vista.getIzq().actualizar(db.getPersonas());
-
             }
         });
 
-        vista.getIzq().getBaja().setOnMouseClicked(e->{
+        vista.getIzq().getBaja().setOnMouseClicked(e -> {
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
-            if (p ==null) return;
+            if (p == null) return;
             db.eliminar(p);
             vista.getIzq().actualizar(db.getPersonas());
         });
 
-        vista.getDer().getAgregarTelefono().setOnMouseClicked(e->{
+        vista.getDer().getAgregarTelefono().setOnMouseClicked(e -> {
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
-            if(p==null)return;
-            String num =vista.getDer().getNuevoTelefono().getText();
+            if (p == null) return;
 
-            int perID= vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem().getId();
-
-            Telefono t = new Telefono(perID, num);
-
-
-            if(!num.isEmpty()){
-                db.agregarTelefonoA(perID, num);
-                vista.getDer().mostrar(p, db.getTelefonosDe(p));
+            String num = vista.getDer().getNuevoTelefono().getText();
+            if (!num.isEmpty()) {
+                db.agregarTelefonoA(p.getId(), num);
+                vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
             }
-
         });
 
-        vista.getDer().getQuitarTelefono().setOnMouseClicked(e->{
+        vista.getDer().getQuitarTelefono().setOnMouseClicked(e -> {
             Telefono t = vista.getDer().getTelefonos().getSelectionModel().getSelectedItem();
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
-            if (p ==null||t==null) return;
+            if (p == null || t == null) return;
             db.eliminarTelefono(t, p);
-            vista.getDer().mostrar(p, db.getTelefonosDe(p));
-            System.out.println(t);
-        });
-
-        vista.getDer().getGuardar().setOnMouseClicked(e->{
-            Persona seleccionada = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
-            if (seleccionada == null) return;
-
-            Persona p = new Persona(
-                    vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem().getId(),
-                    vista.getDer().getNombre().getText(),
-                    vista.getDer().getDireccion().getText()
-
-            );
-
-
-            System.out.println(p.getNombre());
-
-            db.actualizarPersona(p);
-            vista.getDer().mostrar(p, db.getTelefonosDe(p));
-            vista.getIzq().actualizar(db.getPersonas());
-       //     vista.getIzq().getUsuarios().getSelectionModel().set;
-        });
-
-        vista.getDer().getCancelar().setOnMouseClicked(e->{
-            vista.getIzq().getUsuarios().getSelectionModel().clearSelection();
-            vista.getDer().getNombre().setText("");
-            vista.getDer().getDireccion().setText("");
-            vista.getIzq().actualizar(db.getPersonas());
-            vista.getDer().mostrar(null, null);
+            vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
         });
 
         vista.getDer().getTelefonos().setOnMouseClicked(e -> {
@@ -108,7 +72,6 @@ public class Controlador {
             }
         });
 
-
         vista.getDer().getGuardarEdicionTelefono().setOnMouseClicked(e -> {
             Telefono seleccionado = vista.getDer().getTelefonos().getSelectionModel().getSelectedItem();
             Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
@@ -118,9 +81,46 @@ public class Controlador {
             if (nuevoNumero.isEmpty()) return;
 
             db.editarTelefono(seleccionado.getId(), nuevoNumero);
-            vista.getDer().mostrar(p, db.getTelefonosDe(p));
+            vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
             vista.getDer().getNuevoTelefono().clear();
         });
 
+        vista.getDer().getAgregarDireccion().setOnMouseClicked(e -> {
+            Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            if (p == null) return;
+
+            String calle = vista.getDer().getNuevaCalle().getText();
+            String ciudad = vista.getDer().getNuevaCiudad().getText();
+            if (calle.isEmpty()) return;
+
+            db.agregarDireccionA(p.getId(), calle, ciudad);
+            vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
+            vista.getDer().getNuevaCalle().clear();
+            vista.getDer().getNuevaCiudad().clear();
+        });
+
+        vista.getDer().getQuitarDireccion().setOnMouseClicked(e -> {
+            Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            Direccion d = vista.getDer().getDirecciones().getSelectionModel().getSelectedItem();
+            if (p == null || d == null) return;
+
+            db.quitarDireccionDe(p.getId(), d.getId());
+            vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
+        });
+
+        vista.getDer().getGuardar().setOnMouseClicked(e -> {
+            Persona seleccionada = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            if (seleccionada == null) return;
+
+            Persona p = new Persona(seleccionada.getId(), vista.getDer().getNombre().getText());
+            db.actualizarPersona(p);
+            vista.getDer().mostrar(p, db.getTelefonosDe(p), db.getDireccionesDe(p));
+            vista.getIzq().actualizar(db.getPersonas());
+        });
+
+        vista.getDer().getCancelar().setOnMouseClicked(e -> {
+            vista.getIzq().getUsuarios().getSelectionModel().clearSelection();
+            vista.getDer().mostrar(null, null, null);
+        });
     }
 }

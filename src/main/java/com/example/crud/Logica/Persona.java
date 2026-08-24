@@ -6,22 +6,18 @@ import java.util.List;
 public class Persona {
     private int id;
     private String nombre;
-    private String direccion;
     private List<Telefono> telefonos = new ArrayList<>();
+    private List<Direccion> direcciones = new ArrayList<>();
 
-    public Persona(int id, String nombre, String direccion){
+    public Persona(int id, String nombre){
         this.id = id;
         this.nombre = nombre;
-        this.direccion = direccion;
     }
 
     public Persona(String nombre, String direccion){
-        this(0, nombre, direccion);
+        this(0, nombre);
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
 
     public String getNombre() {
         return nombre;
@@ -35,9 +31,6 @@ public class Persona {
         return telefonos;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -54,4 +47,8 @@ public class Persona {
     public void quitarTelefono(Telefono t) {
         telefonos.remove(t);
     }
+
+    public List<Direccion> getDirecciones(){ return direcciones; }
+    public void agregarDireccion(Direccion d){ direcciones.add(d); }
+    public void quitarDireccion(Direccion d){ direcciones.remove(d); }
 }

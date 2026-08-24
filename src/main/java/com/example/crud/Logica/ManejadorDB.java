@@ -30,10 +30,10 @@ public class ManejadorDB {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
-                String direccion = rs.getString("direccion");
 
-                System.out.println("ID: " + id + ", Nombre: " + nombre + ", Dirección: " + direccion);
-                p.add(new Persona(id, nombre, direccion));
+
+                System.out.println("ID: " + id + ", Nombre: " + nombre + ", Dirección: " );
+                p.add(new Persona(id, nombre));
 
             }
 
@@ -104,7 +104,7 @@ public class ManejadorDB {
         return t;
     }
 
-    public void agregar(Persona p){
+    public void agregar(Persona p) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -113,9 +113,8 @@ public class ManejadorDB {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
             stmt = conn.prepareStatement(
-                    "INSERT INTO Personas (nombre, direccion) VALUES (?, ?)");
+                    "INSERT INTO Personas (nombre) VALUES (?)");
             stmt.setString(1, p.getNombre());
-            stmt.setString(2, p.getDireccion());
             stmt.executeUpdate();
 
         } catch (SQLException se) {
@@ -216,7 +215,7 @@ public class ManejadorDB {
         }
     }
 
-    public void actualizarPersona(Persona p){
+    public void actualizarPersona(Persona p) {
         Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -225,10 +224,9 @@ public class ManejadorDB {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
             stmt = conn.prepareStatement(
-                    "UPDATE personas SET nombre =(?) , direccion=(?) where id= (?)");
+                    "UPDATE Personas SET nombre = ? WHERE id = ?");
             stmt.setString(1, p.getNombre());
-            stmt.setString(2, p.getDireccion());
-            stmt.setInt(3, p.getId());
+            stmt.setInt(2, p.getId());
             stmt.executeUpdate();
 
         } catch (SQLException se) {
@@ -270,5 +268,122 @@ public class ManejadorDB {
                 se.printStackTrace();
             }
         }
+    }
+
+    public void agregarDireccionA(int personaId, String calle, String ciudad) {
+        Connection conn = null;
+        PreparedStatement stmtDireccion = null;
+        PreparedStatement stmtRelacion = null;
+        ResultSet generatedKeys = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            // 1. Crear la dirección
+            stmtDireccion = conn.prepareStatement(
+                    "INSERT INTO Direcciones (calle, ciudad) VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            stmtDireccion.setString(1, calle);
+            stmtDireccion.setString(2, ciudad);
+            stmtDireccion.executeUpdate();
+
+            generatedKeys = stmtDireccion.getGeneratedKeys();
+            int direccionId = 0;
+            if (generatedKeys.next()) {
+                direccionId = generatedKeys.getInt(1);
+            }
+
+            // 2. Asociarla a la persona en la tabla puente
+            stmtRelacion = conn.prepareStatement(
+                    "INSERT INTO PersonaDireccion (personaId, direccionId) VALUES (?, ?)");
+            stmtRelacion.setInt(1, personaId);
+            stmtRelacion.setInt(2, direccionId);
+            stmtRelacion.executeUpdate();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (generatedKeys != null) generatedKeys.close();
+                if (stmtDireccion != null) stmtDireccion.close();
+                if (stmtRelacion != null) stmtRelacion.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    // NUEVO: quita SOLO la asociación, no borra la dirección (otros podrían compartirla)
+    public void quitarDireccionDe(int personaId, int direccionId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            stmt = conn.prepareStatement(
+                    "DELETE FROM PersonaDireccion WHERE personaId = ? AND direccionId = ?");
+            stmt.setInt(1, personaId);
+            stmt.setInt(2, direccionId);
+            stmt.executeUpdate();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
+
+    public ArrayList<Direccion> getDireccionesDe(Persona p) {
+        ArrayList<Direccion> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            stmt = conn.prepareStatement(
+                    "SELECT d.id, d.calle, d.ciudad FROM Direcciones d " +
+                            "JOIN PersonaDireccion pd ON d.id = pd.direccionId " +
+                            "WHERE pd.personaId = ?");
+            stmt.setInt(1, p.getId());
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Direccion(
+                        rs.getInt("id"),
+                        rs.getString("calle"),
+                        rs.getString("ciudad")
+                ));
+            }
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+        return lista;
     }
 }
