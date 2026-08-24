@@ -1,0 +1,154 @@
+/* ===== Fondo general — cielo/agua degradado ===== */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #e0f7fa 0%, #b3e5fc 50%, #81d4fa 100%);
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+}
+
+/* ===== Título ===== */
+.titulo {
+    -fx-text-fill: #0277bd;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.9), 2, 0.8, 0, 1);
+}
+
+/* ===== TableView — panel tipo "vidrio" ===== */
+.table-view {
+    -fx-background-color: rgba(255,255,255,0.75);
+    -fx-background-radius: 10px;
+    -fx-border-color: rgba(255,255,255,0.9);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-table-cell-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(2,119,189,0.25), 12, 0.2, 0, 4);
+}
+.table-view .column-header,
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #4fc3f7 0%, #0288d1 100%);
+    -fx-background-radius: 8px 8px 0 0;
+}
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+}
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #263238;
+}
+.table-row-cell:odd {
+    -fx-background-color: rgba(179,229,252,0.35);
+}
+.table-row-cell:selected {
+    -fx-background-color: linear-gradient(to bottom, #b3e5fc, #4fc3f7);
+    -fx-text-fill: #01579b;
+}
+.table-row-cell:hover {
+    -fx-background-color: rgba(79,195,247,0.25);
+}
+
+/* ===== ListView (teléfonos) ===== */
+.list-view {
+    -fx-background-color: rgba(255,255,255,0.75);
+    -fx-background-radius: 8px;
+    -fx-border-color: rgba(255,255,255,0.9);
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+}
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #263238;
+    -fx-padding: 8px;
+}
+.list-cell:filled:selected {
+    -fx-background-color: linear-gradient(to bottom, #b3e5fc, #4fc3f7);
+    -fx-text-fill: #01579b;
+}
+.list-cell:filled:hover {
+    -fx-background-color: rgba(79,195,247,0.2);
+}
+
+/* ===== Botones — el clásico "botón gel" brillante ===== */
+.button {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #81d4fa 45%, #29b6f6 55%, #0288d1 100%);
+    -fx-text-fill: #01579b;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255,255,255,0.8);
+    -fx-border-width: 1px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(2,119,189,0.4), 6, 0.3, 0, 2);
+}
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #a1e4ff 45%, #4fc3f7 55%, #039be5 100%);
+}
+.button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #0288d1 0%, #29b6f6 100%);
+    -fx-text-fill: white;
+}
+
+/* Botón secundario (Cancelar) */
+.button-secundario {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #eceff1 100%);
+    -fx-text-fill: #607d8b;
+    -fx-border-color: #b0bec5;
+    -fx-border-width: 1px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 8px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 4, 0.2, 0, 2);
+}
+.button-secundario:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #dbe4e8 100%);
+}
+
+/* Botón de peligro (Eliminar) — degradado rojo-coral en vez de verde/azul */
+.button-danger {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #ff8a80 45%, #ff5252 55%, #d32f2f 100%);
+    -fx-text-fill: #b71c1c;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255,255,255,0.8);
+    -fx-border-width: 1px;
+    -fx-padding: 8px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(211,47,47,0.4), 6, 0.3, 0, 2);
+}
+.button-danger:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffffff 0%, #ffab91 45%, #ff5252 55%, #c62828 100%);
+}
+
+/* ===== TextField — campo "de vidrio" ===== */
+.text-field {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-text-fill: #263238;
+    -fx-border-color: #81d4fa;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 8px 14px;
+    -fx-prompt-text-fill: #90a4ae;
+}
+.text-field:focused {
+    -fx-border-color: #0288d1;
+    -fx-effect: dropshadow(gaussian, rgba(2,136,209,0.4), 6, 0.3, 0, 0);
+}
+
+/* ===== Label ===== */
+.label {
+    -fx-text-fill: #01579b;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* ===== SplitPane ===== */
+.split-pane {
+    -fx-background-color: transparent;
+}
+.split-pane-divider {
+    -fx-background-color: rgba(255,255,255,0.5);
+    -fx-padding: 0 1px 0 1px;
+}

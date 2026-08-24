@@ -9,6 +9,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Controlador c = new Controlador();
         Scene scene = new Scene(c.getVista());
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("CRUD");
         stage.show();
