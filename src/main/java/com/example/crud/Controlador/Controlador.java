@@ -99,7 +99,28 @@ public class Controlador {
             vista.getDer().mostrar(null, null);
         });
 
+        vista.getDer().getTelefonos().setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                Telefono seleccionado = vista.getDer().getTelefonos().getSelectionModel().getSelectedItem();
+                if (seleccionado != null) {
+                    vista.getDer().getNuevoTelefono().setText(seleccionado.getTelefono());
+                }
+            }
+        });
 
+
+        vista.getDer().getGuardarEdicionTelefono().setOnMouseClicked(e -> {
+            Telefono seleccionado = vista.getDer().getTelefonos().getSelectionModel().getSelectedItem();
+            Persona p = vista.getIzq().getUsuarios().getSelectionModel().getSelectedItem();
+            if (seleccionado == null || p == null) return;
+
+            String nuevoNumero = vista.getDer().getNuevoTelefono().getText();
+            if (nuevoNumero.isEmpty()) return;
+
+            db.editarTelefono(seleccionado.getId(), nuevoNumero);
+            vista.getDer().mostrar(p, db.getTelefonosDe(p));
+            vista.getDer().getNuevoTelefono().clear();
+        });
 
     }
 }

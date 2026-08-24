@@ -244,4 +244,31 @@ public class ManejadorDB {
             }
         }
     }
+    public void editarTelefono(int id, String nuevoNumero) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            stmt = conn.prepareStatement(
+                    "UPDATE Telefonos SET telefono = ? WHERE id = ?");
+            stmt.setString(1, nuevoNumero);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+
+        } catch (SQLException se) {
+            se.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 }

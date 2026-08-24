@@ -20,6 +20,7 @@ public class PanelDerecho extends VBox {
     private ListView<Telefono> telefonos;
     private Button agregarTelefono, quitarTelefono, guardar, cancelar;
     private HBox filaNuevoTelefono, filaAccionesTelefono, filaAcciones;
+    private Button guardarEdicionTelefono;
 
     public PanelDerecho(){
         this.setPadding(new Insets(15));
@@ -37,13 +38,15 @@ public class PanelDerecho extends VBox {
         nuevoTelefono = new TextField();
         nuevoTelefono.setPromptText("Nuevo teléfono...");
         agregarTelefono = new Button("+");
-        filaNuevoTelefono = new HBox(6, nuevoTelefono, agregarTelefono);
+        guardarEdicionTelefono = new Button("Guardar edición");
+        filaNuevoTelefono = new HBox(6, nuevoTelefono, agregarTelefono, guardarEdicionTelefono);
 
         quitarTelefono = new Button("Quitar teléfono seleccionado");
         filaAccionesTelefono = new HBox(quitarTelefono);
 
         guardar = new Button("Guardar cambios");
         cancelar = new Button("Cancelar");
+
         filaAcciones = new HBox(10, guardar, cancelar);
 
         this.getChildren().addAll(
@@ -101,4 +104,7 @@ public class PanelDerecho extends VBox {
     public Button getQuitarTelefono(){ return quitarTelefono; }
     public Button getGuardar(){ return guardar; }
     public Button getCancelar(){ return cancelar; }
+    public Button getGuardarEdicionTelefono(){
+        return guardarEdicionTelefono;
+    }
 }
