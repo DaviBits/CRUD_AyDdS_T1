@@ -55,4 +55,10 @@ public class PanelIzquierdo extends VBox {
     public Button getBaja(){
         return baja;
     }
+    public Persona getSeleccionada(){
+        return usuarios.getSelectionModel().getSelectedItem();
+    }
+    public void limpiarSeleccion(){
+        usuarios.getSelectionModel().clearSelection();
+    }
 }

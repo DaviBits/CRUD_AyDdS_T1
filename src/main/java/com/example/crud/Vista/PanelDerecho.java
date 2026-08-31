@@ -120,4 +120,11 @@ public class PanelDerecho extends VBox {
     public Button getGuardar(){ return guardar; }
     public Button getCancelar(){ return cancelar; }
     public Button getGuardarEdicionTelefono(){ return guardarEdicionTelefono; }
+    public Telefono getTelefonoSeleccionado(){
+        return telefonos.getSelectionModel().getSelectedItem();
+    }
+
+    public Direccion getDireccionSeleccionada(){
+        return direcciones.getSelectionModel().getSelectedItem();
+    }
 }
